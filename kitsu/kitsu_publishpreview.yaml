@@ -1,0 +1,22 @@
+version: "1.0"
+
+action:
+  #Must Have Properties
+  name: "Kitsu / Publish "
+
+  #Optional Properties
+  version: 1
+  id: "inbetween::kitsu::publish"
+  category: "inbetween/pipeline/kitsu"
+  enable: false
+  type: python
+  author: "inbetween"
+  icon:
+    path: "../kitsu_icon.svg"
+
+  script: "code/run_publish_preview.py"
+
+  #Where to register this action
+  register:
+    file:
+      enabled: true

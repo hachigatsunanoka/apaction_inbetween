@@ -1,0 +1,23 @@
+version: "1.0"
+
+action:
+  #Must Have Properties
+  name: "Launch Houdini"
+
+  #Optional Properties
+  version: 1
+  id: "inbetween::houdini::launchhoudini"
+  category: "inbetween/dcc/houdini"
+  enable: false
+  type: python
+  author: "inbetween"
+  icon:
+    path: "../houdini_icon.svg"
+
+  script: "code/launch_houdini.py"
+  settings: code/launch_settings.py
+
+  #Where to register this action
+  register:
+    file:
+      filter: "*.hip"

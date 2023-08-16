@@ -1,0 +1,22 @@
+version: "1.0"
+
+action:
+  #Must Have Properties
+  name: "Kitsu : EDL Import"
+
+  #Optional Properties
+  version: 1
+  id: "inbetween::kitsu::timeline"
+  category: "inbetween/pipeline/kitsu"
+  enable: false
+  type: python
+  author: "inbetween"
+  icon:
+    path: "../kitsu_icon.svg"
+
+  script: "code/timeline.py"
+
+  #Where to register this action
+  register:
+    sidebar:
+      enabled: true
