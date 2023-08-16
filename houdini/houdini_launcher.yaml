@@ -14,8 +14,8 @@ action:
   icon:
     path: "../houdini_icon.svg"
 
-  script: "code/launch_houdini.py"
-  settings: code/launch_settings.py
+  script: "code/run_launcher.py"
+  settings: code/launcher_settings.py
 
   #Where to register this action
   register:
