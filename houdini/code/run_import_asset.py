@@ -26,11 +26,6 @@ files = ctx.selected_files
 def create_dialog():
     dialog = ap.Dialog()
     dialog.title = 'houdini settings'
-    # dialog.add_text('hfs:\t').add_input('c:\program files\side effects software\houdini 19.5.403',
-    # 	var='hfs_path',
-    # 	browse=ap.browsetype(1),
-    # 	browse_path='c:\program files\side effects software'
-    # )
     dialog.add_dropdown('Select Type...', [
                         'reference', 'sublayer'], var='type')
 

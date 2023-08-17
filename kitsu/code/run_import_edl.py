@@ -4,7 +4,6 @@ import apsync as aps
 import sys
 import os
 import glob
-import ibffmpeg as ffmpeg
 
 ui = ap.UI()
 ctx = ap.Context.instance()
