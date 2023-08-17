@@ -12,7 +12,7 @@ action:
   type: python
   author: "inbetween"
   icon:
-    path: "../kitsu_icon.svg"
+    path: "resource/kitsu_icon.svg"
 
   script: "code/run_version_up.py"
 

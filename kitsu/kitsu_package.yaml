@@ -27,7 +27,7 @@ action:
 
   author: "inbetween"
   icon:
-    path: "../kitsu_icon.svg"
+    path: "resource/kitsu_icon.svg"
 
   settings: code/package_settings.py
 
@@ -36,6 +36,7 @@ action:
     - inbetween::kitsu::timeline
     - inbetween::kitsu::publish
     - inbetween::kitsu::versionup
+    - inbetween::kitsu::openinbrowser
 
   python_packages:
     - gazu

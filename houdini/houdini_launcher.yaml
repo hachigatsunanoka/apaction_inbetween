@@ -2,11 +2,11 @@ version: "1.0"
 
 action:
   #Must Have Properties
-  name: "Launch Houdini"
+  name: "Houdini Launcher"
 
   #Optional Properties
   version: 1
-  id: "inbetween::houdini::launchhoudini"
+  id: "inbetween::houdini::launcher"
   category: "inbetween/dcc/houdini"
   enable: false
   type: python

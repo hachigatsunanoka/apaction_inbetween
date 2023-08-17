@@ -12,7 +12,7 @@ action:
   enable: false
   description: Houdini Integration for Anchorpoint. Organized by inbetween.
   details: '
-    <p>This action can be found in the context menu on <b>.blend</b> files
+    <p>This action can be found in the context menu on <b>.hip</b> files
     <ol>
       <li>Right click on the blend file</li>
       <li>Select "Blender / Render Thumbnail"</li>
@@ -32,7 +32,4 @@ action:
   # settings: code/workspace.py
 
   actions:
-    # - inbetween::notion::refresh
-    # - inbetween::notion::createhip
-    - inbetween::houdini::launchhoudini
-    # - inbetween::notion::createnk
+    - inbetween::houdini::launcher

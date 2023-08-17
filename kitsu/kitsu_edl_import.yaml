@@ -2,7 +2,7 @@ version: "1.0"
 
 action:
   #Must Have Properties
-  name: "Kitsu : EDL Import"
+  name: "Kitsu / EDL Import"
 
   #Optional Properties
   version: 1
@@ -12,7 +12,7 @@ action:
   type: python
   author: "inbetween"
   icon:
-    path: "../kitsu_icon.svg"
+    path: "resource/kitsu_icon.svg"
 
   script: "code/timeline.py"
 
