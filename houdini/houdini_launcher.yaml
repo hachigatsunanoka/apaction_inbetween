@@ -12,7 +12,7 @@ action:
   type: python
   author: "inbetween"
   icon:
-    path: "../houdini_icon.svg"
+    path: "resource/houdini_icon.svg"
 
   script: "code/run_launcher.py"
   settings: code/launcher_settings.py
