@@ -19,4 +19,4 @@ action:
   #Where to register this action
   register:
     file:
-      filter: "*.hip;*.nkind"
+      filter: "*.hip;*.nkind;*.nk"
