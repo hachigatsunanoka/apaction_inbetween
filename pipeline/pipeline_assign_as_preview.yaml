@@ -2,11 +2,11 @@ version: "1.0"
 
 action:
   #Must Have Properties
-  name: "Save as preview context..."
+  name: "Assign file as preview ..."
 
   #Optional Properties
   version: 1
-  id: "inbetween::pipeline::saveaspreview"
+  id: "inbetween::pipeline::assign_as_preview"
   category: "inbetween/pipeline"
   enable: false
   type: python
@@ -14,7 +14,7 @@ action:
   icon:
     path: "resource/houdini_icon.svg"
 
-  script: "code/save_as_preview.py"
+  script: "code/assign_as_preview.py"
   # settings: code/launchr_settings.py
 
   #Where to register this action
