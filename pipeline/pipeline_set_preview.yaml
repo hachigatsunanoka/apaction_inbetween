@@ -1,0 +1,23 @@
+version: "1.0"
+
+action:
+  #Must Have Properties
+  name: "Save as preview context..."
+
+  #Optional Properties
+  version: 1
+  id: "inbetween::pipeline::saveaspreview"
+  category: "inbetween/pipeline"
+  enable: false
+  type: python
+  author: "inbetween"
+  icon:
+    path: "resource/houdini_icon.svg"
+
+  script: "code/save_as_preview.py"
+  # settings: code/launchr_settings.py
+
+  #Where to register this action
+  register:
+    file:
+      filter: "*.mp4"
