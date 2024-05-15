@@ -20,4 +20,4 @@ action:
   #Where to register this action
   register:
     file:
-      filter: "*.mp4"
+      filter: "*.mp4; *.png; *.mov; *.jpg"
