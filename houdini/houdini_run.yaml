@@ -8,7 +8,7 @@ action:
   version: 1
   id: "inbetween::houdini::run"
   category: "inbetween/dcc/houdini"
-  enable: true
+  enable: false
   type: python
   author: "inbetween"
   icon:

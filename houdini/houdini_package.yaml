@@ -32,4 +32,4 @@ action:
   # settings: code/workspace.py
 
   actions:
-    - inbetween::houdini::launcher
+    - inbetween::houdini::run
