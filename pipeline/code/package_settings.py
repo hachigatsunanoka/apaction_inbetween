@@ -19,8 +19,8 @@ if not settings.contains('root'):
 if not settings.contains('template'):
     settings.set('template', TEMPLATE_DEFAULT)
 
-if not settings.contains('worker_initial'):
-    settings.set('worker_initial', WORKER_DEFAULT)
+if not settings.contains('worker'):
+    settings.set('worker', WORKER_DEFAULT)
     settings.store()
 
 
@@ -36,39 +36,35 @@ def create_dialog():
                                                           browse_path=settings.get(
         'root'))
     dialog.add_info(
-        text='The folder contains all of your project. You should not change this unless you know what you are doing')
+        text='The folder contains all of your project. <b>You should not change this unless you know what you are doing.</b>')
 
     dialog.add_empty()
 
-    # TODO: add default dropdown
-    dialog.add_text('Use default project template').add_switch(True, var='use_default_template',
-                                                               callback=change_template_type)
-    dialog.start_section('Custom template', folded=True,
-                         enabled=False, var='template_folder_section')
-    dialog.add_info(
-        text='The folder where the project template is stored.You should not change this unless you know what you are doing.')
-    dialog.add_text('Template folder path').add_input(default=settings.get('template_folder'),
+    # Template Section
+    dialog.add_switch(default=False, var='use_default_template',
+                      callback=change_template_type).add_text('Use custom project template')
+    dialog.add_text('Template folder path').add_input(default=settings.get('template'),
                                                       placeholder='path/to/template',
-                                                      var='template_folder',
+                                                      var='template',
                                                       browse=ap.BrowseType.Folder,
                                                       browse_path=settings.get(
-        'template_folder'),
+        'template'),
         enabled=False)
-    dialog.end_section()
+    dialog.add_info(
+        text='The folder where the project template is stored.<b>You should not change this unless you know what you are doing.</b>')
+    dialog.hide_row('template', True)
 
     dialog.add_empty()
 
-    # TODO: add default dropdown
-    dialog.add_text('Use default worker initial from username').add_switch(
-        True, var='use_default_worker_initial', callback=change_worker_type)
-    dialog.start_section('Custom worker initial', folded=True,
-                         enabled=False, var='worker_initial_section')
-    dialog.add_info(
-        text='The initial of your first and last name. e.g. "ak" for Akira Kondo.')
-    dialog.add_text('Worker Initial').add_input(default=settings.get('worker_initial'),
+    # Worker Section
+    dialog.add_switch(default=False, var='use_default_worker',
+                      callback=change_worker_type).add_text('Use custom worker initial')
+    dialog.add_text('Worker Initial').add_input(default=settings.get('worker'),
                                                 placeholder='worker initial',
-                                                var='worker_initial')
-    dialog.end_section()
+                                                var='worker')
+    dialog.add_info(
+        text='The initial of your first and last name. Your default worker initial is <b>"' + WORKER_DEFAULT + '"</b>.')
+    dialog.hide_row('worker', True)
 
     dialog.add_empty()
 
@@ -79,20 +75,16 @@ def create_dialog():
 
 def change_template_type(dialog: ap.Dialog, value):
     if value:
-        dialog.set_enabled('template_folder_section', True)
-        dialog.set_folded('template_folder_section', True)
+        dialog.hide_row('template', False)
     else:
-        dialog.set_enabled('template_folder_section', False)
-        dialog.set_folded('template_folder_section', False)
+        dialog.hide_row('template', True)
 
 
 def change_worker_type(dialog: ap.Dialog, value):
     if value:
-        dialog.set_enabled('worker_initial_section', False)
-        dialog.set_folded('worker_initial_section', True)
+        dialog.hide_row('worker', False)
     else:
-        dialog.set_enabled('worker_initial_section', True)
-        dialog.set_folded('worker_initial_section', False)
+        dialog.hide_row('worker', True)
 
 
 def press_apply(dialog):
@@ -101,11 +93,11 @@ def press_apply(dialog):
     if dialog.get_value('use_default_template'):
         settings.set('template', TEMPLATE_DEFAULT)
     else:
-        settings.set("template", dialog.get_value('template_folder'))
-    if dialog.get_value('use_default_worker_initial'):
+        settings.set("template", dialog.get_value('template'))
+    if dialog.get_value('use_default_worker'):
         settings.set('worker', WORKER_DEFAULT)
     else:
-        settings.set('worker', dialog.get_value('worker_initial'))
+        settings.set('worker', dialog.get_value('worker'))
     settings.store()
 
     ui.show_success('inbetween Pipeline', 'Update your settings successfully.')

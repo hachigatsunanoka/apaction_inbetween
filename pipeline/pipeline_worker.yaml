@@ -1,10 +1,10 @@
 version: "1.0"
 
 action:
-  name: "Folder: Today"
+  name: "Folder: Worker Initial"
 
   version: 1
-  id: "inbetween::pipeline::today"
+  id: "inbetween::pipeline::worker"
   category: "inbetween/pipeline"
   enable: false
   type: python
@@ -12,7 +12,7 @@ action:
   icon:
     path: :/icons/user-interface/folder.svg
 
-  script: "code/today.py"
+  script: "code/worker.py"
 
   register:
     new_folder:

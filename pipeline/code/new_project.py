@@ -7,10 +7,15 @@ ctx = ap.get_context()
 
 settings = aps.Settings(name="pipeline")
 
+ocios = ['ACES1.3 (cg)', 'ACES1.3 (studio)', 'Custom']
+ICON = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')).replace(
+    os.sep, '/') + '/resource/ib.svg'
+
 
 def create_dialog():
     dialog = ap.Dialog()
 
+    dialog.icon = ICON
     dialog.title = 'Create New Project'
 
     dialog.add_text('Project Code :').add_input(default='24000',
@@ -40,7 +45,7 @@ def create_dialog():
 
     dialog.add_separator()
     dialog.add_text('OCIO Config :').add_dropdown(
-        'ACES1.3 (cg-config)', ['ACES1.3 (cg-config)', 'ACES1.3 (studio-config)', 'Custom'], var='ocio', callback=change_ocio)
+        ocios[0], ocios, var='ocio', callback=change_ocio)
     dialog.add_text('Custom config path :', var='custom_ocio_text').add_input(
         default='path/to/config.ocio', placeholder='path/to/config.ocio', var='custom_ocio_path', browse=ap.BrowseType.File)
     dialog.hide_row('custom_ocio_text', True)
@@ -127,7 +132,7 @@ def press_create(dialog):
     else:
         folder = os.path.abspath(os.path.join(
             os.path.dirname(__file__), '..')).replace(os.sep, '/') + '/resource/ocio/'
-        if ocio_type == 'ACES1.3 (cg-config)':
+        if ocio_type == 'ACES1.3 (cg)':
             ocio = folder + 'cg-config.ocio'
         else:
             ocio = folder + 'studio-config.ocio'
