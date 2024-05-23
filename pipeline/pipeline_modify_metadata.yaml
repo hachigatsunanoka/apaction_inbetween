@@ -1,0 +1,24 @@
+version: "1.0"
+
+action:
+  #Must Have Properties
+  name: "Modify Project Metadata"
+
+  #Optional Properties
+  version: 1
+  id: "inbetween::pipeline::modify_metadata"
+  category: "inbetween/pipeline"
+  enable: true
+  type: python
+  author: "inbetween"
+  icon:
+    path: "resource/ib.svg"
+
+  script: "code/modify_metadata.py"
+
+  register:
+    sidebar:
+      enable: true
+    
+    
+    

@@ -27,10 +27,14 @@ action:
 
   author: "inbetween"
   icon:
-    path: "resource/houdini_icon.svg"
+    path: "resource/ib.svg"
 
   settings: code/package_settings.py
 
   actions:
     - inbetween::pipeline::assign_as_preview
     - inbetween::pipeline::initialize_project
+    - inbetween::pipeline::today
+    - inbetween::pipeline::modify_metadata
+    - inbetween::pipeline::new_project
+    - inbetween::pipeline::new_shot

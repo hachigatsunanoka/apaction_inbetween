@@ -2,7 +2,7 @@ version: "1.0"
 
 action:
   #Must Have Properties
-  name: "Assign file as preview ..."
+  name: "Set as preview ..."
 
   #Optional Properties
   version: 1

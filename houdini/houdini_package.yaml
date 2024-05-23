@@ -1,10 +1,8 @@
 version: "1.0"
 
 action:
-  #Must Have Properties
   name: "Houdini Integration"
 
-  #Optional Properties
   version: 1
   id: "inbetween::package::houdini"
   category: "inbetween/dcc/houdini"
@@ -12,24 +10,21 @@ action:
   enable: false
   description: Houdini Integration for Anchorpoint. Organized by inbetween.
   details: '
-    <p>This action can be found in the context menu on <b>.hip</b> files
-    <ol>
-      <li>Right click on the blend file</li>
-      <li>Select "Blender / Render Thumbnail"</li>
-      <li>Wait </li>
-    </ol>
-      At the first start you have to set the path to Blender. Anchorpoint saves the path so you never have to enter it again.</p>
-      <p><img src = "https://github.com/Anchorpoint-Software/ap-actions-data/blob/fab5ec6e66e55d5558006ed738e674ad1a6e6706/png/blender_thumbnail.png?raw=true" width="400"></p>
-      <p>Replaces the thumbnail with an Eevee rendering.</p>
-      <p><img src = "https://github.com/Anchorpoint-Software/ap-actions-data/blob/9c94231f3ffb3cd2650526cf2c00b0c8454f5959/png/blender_thumbnail_rendered.png?raw=true" width="400"></p>
-      <p>The result after replacing the thumbnail</p>
+    <b>This package requires the "inbetween Pipeline" package.</b>
+    <h2>Key Features</h2>
+    <ul>
+      <li>Launch houdini with context sensitive</li>
+      <li>Create new hip with context sensitive</li>
+      <li>Manage input and output file pathes</li>
+      <li>Directly import files from anchorpoint to houdini</li>
+    </ul>
+    For more information visit the <a href="https://www.notion.so/inbetween-jp/Anchorpoint-eb4a930b33af42b497ade0eeba4274e8?pvs=4">Notion documentation</a>.
     '
-
   author: "inbetween"
   icon:
     path: "resource/houdini_icon.svg"
-
-  # settings: code/workspace.py
+  settings: code/package_settings.py
 
   actions:
-    - inbetween::houdini::run
+    - inbetween::houdini::launch
+    - inbetween::houdini::new

@@ -1,12 +1,10 @@
 version: "1.0"
 
 action:
-  #Must Have Properties
-  name: "Run houdini in context..."
+  name: "Launch"
 
-  #Optional Properties
   version: 1
-  id: "inbetween::houdini::run"
+  id: "inbetween::houdini::launch"
   category: "inbetween/dcc/houdini"
   enable: false
   type: python
@@ -14,10 +12,8 @@ action:
   icon:
     path: "resource/houdini_icon.svg"
 
-  script: "code/run_houdini.py"
-  settings: code/launcher_settings.py
+  script: "code/launch.py"
 
-  #Where to register this action
   register:
     file:
       filter: "*.hip"
