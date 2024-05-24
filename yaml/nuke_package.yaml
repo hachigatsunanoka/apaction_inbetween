@@ -1,0 +1,34 @@
+version: "1.0"
+
+action:
+  #Must Have Properties
+  name: "Nuke Integration"
+
+  #Optional Properties
+  version: 1
+  id: "inbetween::package::nuke"
+  category: "inbetween/dcc/nuke"
+  type: package
+  enable: false
+  description: Nuke Integration for Anchorpoint. Organized by inbetween.
+  details: '
+    <b>This package requires the "inbetween Pipeline" package.</b>
+    <h2>Key Features</h2>
+    <ul>
+      <li>Launch Nuke with context sensitive</li>
+      <li>Create new Nuke scripts with context sensitive</li>
+      <li>Manage input and output file pathes</li>
+      <li>Directly import files from Anchorpoint to Nuke</li>
+    </ul>
+    For more information visit the <a href="https://www.notion.so/inbetween-jp/Anchorpoint-eb4a930b33af42b497ade0eeba4274e8?pvs=4">Notion documentation</a>.
+    '
+
+  author: "inbetween"
+  icon:
+    path: "../resource/nuke_icon.svg"
+
+  settings: ../script/nuke_settings.py
+
+  actions:
+    - inbetween::nuke::launch
+    - inbetween::nuke::new

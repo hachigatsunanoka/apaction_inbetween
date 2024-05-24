@@ -1,0 +1,21 @@
+version: "1.0"
+action:
+  name: "Pipeline: New Project..."
+
+  version: 1
+  id: "inbetween::pipeline::new_project"
+  category: "inbetween/pipeline"
+  enable: false
+  type: python
+  author: "inbetween"
+  description: Create a new project with a folder structure and metadata.
+  icon:
+    path: "../resource/ib_white.svg"
+
+  script: "../script/pipeline_new_project.py"
+
+  register:
+    workspace_overview:
+      enable: true
+    
+    

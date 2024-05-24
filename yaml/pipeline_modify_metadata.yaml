@@ -1,0 +1,22 @@
+version: "1.0"
+
+action:
+  name: "Pipeline: Update Project Metadata..."
+
+  version: 1
+  id: "inbetween::pipeline::modify_metadata"
+  category: "inbetween/pipeline"
+  enable: false
+  type: python
+  author: "inbetween"
+  icon:
+    path: "../resource/ib_white.svg"
+
+  script: "../script/modify_metadata.py"
+
+  register:
+    sidebar:
+      enable: true
+    
+    
+    

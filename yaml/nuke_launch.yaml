@@ -1,0 +1,19 @@
+version: "1.0"
+
+action:
+  name: "Nuke: Open File"
+
+  version: 1
+  id: "inbetween::nuke::launch"
+  category: "inbetween/dcc/nuke"
+  enable: false
+  type: python
+  author: "inbetween"
+  icon:
+    path: "../resource/nuke_icon.svg"
+
+  script: "../script/launch.py"
+
+  register:
+    file:
+      filter: "*.nk"
