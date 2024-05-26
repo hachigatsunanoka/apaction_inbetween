@@ -35,3 +35,4 @@ action:
     - inbetween::pipeline::modify_metadata
     - inbetween::pipeline::new_project
     - inbetween::pipeline::new_shot
+    - inbetween::pipeline::send_to_wip

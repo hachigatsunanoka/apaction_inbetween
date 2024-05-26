@@ -1,10 +1,10 @@
 version: "1.0"
 
 action:
-  name: "Pipeline: Update metadata..."
+  name: "Pipeline: Send to WIP..."
 
   version: 1
-  id: "inbetween::pipeline::modify_metadata"
+  id: "inbetween::pipeline::send_to_wip"
   category: "inbetween/pipeline"
   enable: false
   type: python
@@ -12,8 +12,8 @@ action:
   icon:
     path: "../resource/ib_white.svg"
 
-  script: "../script/pipeline_modify_metadata.py"
+  script: "../script/pipeline_send_to_wip.py"
 
   register:
-    sidebar:
+    file:
       enable: true

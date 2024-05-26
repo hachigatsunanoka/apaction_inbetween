@@ -1,8 +1,8 @@
 import apsync as aps
 import anchorpoint as ap
-from pathlib import Path
 import os
 import subprocess
+import datetime
 
 
 def launch_program_with_context(exec: str, ctx: ap.Context, clear_python: bool = True):
@@ -37,12 +37,17 @@ def get_current_pipeline_context(ctx: ap.Context):
     data['fps'] = project.get_metadata().get('fps', '24')
 
     # get shot metadata from context
-    if ctx.filename:
-        data['shot_dir'] = str(Path(ctx.path).parents[1]).replace(os.sep, '/')
-    else:
-        data['shot_dir'] = str(Path(ctx.path).parent).replace(os.sep, '/')
+    data['shot'] = None
+    data['shot_dir'] = None
+    parts = ctx.path.split('/')
+    for i in range(len(parts)):
+        if parts[i] == '02_PRODUCTION':
+            if i + 1 < len(parts):
+                data['shot'] = parts[i + 1]
+                break
 
-    data['shot'] = Path(data['shot_dir']).name
+    if data['shot'] is not None:
+        data['shot_dir'] = '/'.join(parts[:i + 2])
 
     start = aps.get_attribute_text(
         data['shot_dir'], 'Start', workspace_id=ctx.workspace_id)
@@ -51,10 +56,10 @@ def get_current_pipeline_context(ctx: ap.Context):
 
     data['start'] = start
 
-    range = aps.get_attribute_text(
+    frame_range = aps.get_attribute_text(
         data['shot_dir'], 'Range', workspace_id=ctx.workspace_id)
-    if range is None:
-        range = '100'
+    if frame_range is None:
+        frame_range = '100'
 
     data['range'] = aps.get_attribute_text(data['shot_dir'], 'Range',
                                            workspace_id=ctx.workspace_id)
@@ -69,6 +74,7 @@ def declare_context_env(ctx: ap.Context):
     project = aps.get_project(ctx.path)
     os.environ['IB_PROJ'] = data['project']
     os.environ['IB_PROJDIR'] = data['project_dir']
+    os.environ['IB_FPS'] = data['fps']
 
     # set shot
     os.environ['IB_SHOT'] = data['shot']
@@ -85,7 +91,8 @@ def declare_context_env(ctx: ap.Context):
     os.environ['IB_RESX'] = data['width']
     os.environ['IB_RESY'] = data['height']
     os.environ['IB_FSTART'] = data['start']
-    os.environ['IB_FEND'] = str(int(data['start']) + int(data['range']))
+    os.environ['IB_FRANGE'] = data['range']
+    os.environ['IB_FEND'] = str(int(data['start']) + int(data['range']) - 1)
 
 
 def copy_scenefile_from_template(ext: str, ctx: ap.Context, task: str):
@@ -110,3 +117,11 @@ def copy_scenefile_from_template(ext: str, ctx: ap.Context, task: str):
     aps.copy_file(template, resolved)
 
     return resolved
+
+
+def get_today():
+
+    today = str(datetime.date.today()).split('-')
+    foldername = today[0][-2:]+today[1]+today[2]
+
+    return foldername

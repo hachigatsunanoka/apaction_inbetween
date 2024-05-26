@@ -19,7 +19,7 @@ def create_dialog():
     dialog.title = 'Create New Project'
 
     dialog.add_text('Project Code :').add_input(default='24000',
-                                                placeholder='Unique 5 digits',
+                                                placeholder='00000',
                                                 var='code',
                                                 width=100).add_text('_').add_input(default='NAME',
                                                                                    placeholder='Name of the project',
@@ -92,7 +92,7 @@ def create_project_from_template_async(code, name, fps, width, height, shot_form
     project = ctx.create_project(
         target, name, workspace_id=ctx.workspace_id)
 
-    aps.copy_from_template(source, target, workspace_id=ctx.workspace_id)
+    aps.copy_folder(source, target, workspace_id=ctx.workspace_id)
 
     metadata = {}
     metadata['fps'] = fps
@@ -106,6 +106,9 @@ def create_project_from_template_async(code, name, fps, width, height, shot_form
     project.update_metadata(metadata)
 
     progress.finish()
+
+    ui.show_success('Project Created',
+                    'Project has been created successfully.')
 
 
 def press_create(dialog):

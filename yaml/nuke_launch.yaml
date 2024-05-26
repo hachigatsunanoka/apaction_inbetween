@@ -12,7 +12,7 @@ action:
   icon:
     path: "../resource/nuke_icon.svg"
 
-  script: "../script/launch.py"
+  script: "../script/nuke_launch.py"
 
   register:
     file:
