@@ -115,7 +115,6 @@ def copy_scenefile_from_template(ext: str, ctx: ap.Context, task: str):
     resolved = ctx.path + '/' + aps.resolve_variables(format, variables)
 
     aps.copy_file(template, resolved)
-
     return resolved
 
 

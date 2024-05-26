@@ -45,8 +45,7 @@ def create_dialog():
                                                          var='template',
                                                          browse=ap.BrowseType.Folder,
                                                          browse_path=settings.get(
-        'template'),
-        enabled=False)
+        'template'))
     dialog.add_info(
         text='The folder where the project template is stored.<b>You should not change this unless you know what you are doing.</b>')
 

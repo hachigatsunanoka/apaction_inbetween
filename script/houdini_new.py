@@ -40,6 +40,7 @@ def create_dialog():
 
 
 def press_apply(dialog):
+    template = h_settings.get('template')
     target = pu.copy_scenefile_from_template(ext='.hip',
                                                  ctx=ctx,
                                                  task=dialog.get_value('task'))
