@@ -1,4 +1,4 @@
-version: "1.0"
+version: "0.1.0"
 
 action:
   #Must Have Properties
@@ -13,7 +13,8 @@ action:
   description: Nuke Integration for Anchorpoint. Organized by inbetween.
   details: '
     <b>This package requires the "inbetween Pipeline" package.</b>
-    <h2>Key Features</h2>
+    <h3>Version 0.1.0</h3>
+    <h3>Key Features</h3>
     <ul>
       <li>Launch Nuke with context sensitive</li>
       <li>Create new Nuke scripts with context sensitive</li>

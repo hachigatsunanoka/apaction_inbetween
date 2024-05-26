@@ -1,4 +1,4 @@
-version: "1.0"
+version: "0.1.0"
 
 action:
   name: "Houdini Integration"
@@ -11,6 +11,7 @@ action:
   description: Houdini Integration for Anchorpoint. Organized by inbetween.
   details: '
     <b>This package requires the "inbetween Pipeline" package.</b>
+    <h3>Version 0.1.0</h3>
     <h2>Key Features</h2>
     <ul>
       <li>Launch houdini with context sensitive</li>
