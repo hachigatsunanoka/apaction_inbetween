@@ -8,8 +8,7 @@ ctx = ap.Context.instance()
 settings = aps.Settings(name="pipeline")
 
 ROOT_DEFAULT = 'I:/IB-PROJECTS'
-TEMPLATE_DEFAULT = os.path.abspath(os.path.join(
-    os.path.dirname(__file__), '..')).replace(os.sep, '/') + '/template/_project'
+TEMPLATE_DEFAULT = 'I:/IB-PIPELINE/anchorpoint/template/_project'
 WORKER_DEFAULT = ctx.username.split(
     ' ')[0][0].lower() + ctx.username.split(' ')[1][0].lower()
 
@@ -29,11 +28,11 @@ def create_dialog():
 
     dialog.title = 'Pipeline Settings'
 
-    dialog.add_text(text='Project folder path').add_input(default=settings.get('root'),
-                                                          placeholder='path/to/projects',
-                                                          var='root',
-                                                          browse=ap.BrowseType.Folder,
-                                                          browse_path=settings.get(
+    dialog.add_text(text='Project folder').add_input(default=settings.get('root'),
+                                                     placeholder='path/to/projects',
+                                                     var='root',
+                                                     browse=ap.BrowseType.Folder,
+                                                     browse_path=settings.get(
         'root'))
     dialog.add_info(
         text='The folder contains all of your project. <b>You should not change this unless you know what you are doing.</b>')
@@ -41,18 +40,15 @@ def create_dialog():
     dialog.add_empty()
 
     # Template Section
-    dialog.add_switch(default=False, var='use_default_template',
-                      callback=change_template_type).add_text('Use custom project template')
-    dialog.add_text('Template folder path').add_input(default=settings.get('template'),
-                                                      placeholder='path/to/template',
-                                                      var='template',
-                                                      browse=ap.BrowseType.Folder,
-                                                      browse_path=settings.get(
+    dialog.add_text('Project template folder').add_input(default=settings.get('template'),
+                                                         placeholder='path/to/template',
+                                                         var='template',
+                                                         browse=ap.BrowseType.Folder,
+                                                         browse_path=settings.get(
         'template'),
         enabled=False)
     dialog.add_info(
         text='The folder where the project template is stored.<b>You should not change this unless you know what you are doing.</b>')
-    dialog.hide_row('template', True)
 
     dialog.add_empty()
 
@@ -73,13 +69,6 @@ def create_dialog():
     dialog.show()
 
 
-def change_template_type(dialog: ap.Dialog, value):
-    if value:
-        dialog.hide_row('template', False)
-    else:
-        dialog.hide_row('template', True)
-
-
 def change_worker_type(dialog: ap.Dialog, value):
     if value:
         dialog.hide_row('worker', False)
@@ -90,10 +79,7 @@ def change_worker_type(dialog: ap.Dialog, value):
 def press_apply(dialog):
     settings = aps.Settings(name="pipeline")
     settings.set("root", dialog.get_value('root'))
-    if dialog.get_value('use_default_template'):
-        settings.set('template', TEMPLATE_DEFAULT)
-    else:
-        settings.set("template", dialog.get_value('template'))
+    settings.set("template", dialog.get_value('template'))
     if dialog.get_value('use_default_worker'):
         settings.set('worker', WORKER_DEFAULT)
     else:
