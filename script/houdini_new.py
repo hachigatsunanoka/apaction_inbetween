@@ -41,9 +41,9 @@ def create_dialog():
 
 def press_apply(dialog):
     template = h_settings.get('template')
-    target = pu.copy_scenefile_from_template(ext='.hip',
-                                                 ctx=ctx,
-                                                 task=dialog.get_value('task'))
+    target = pu.copy_scenefile_from_template(template=template,
+                                             ctx=ctx,
+                                             task=dialog.get_value('task'))
 
     if dialog.get_value('launch'):
         ctx.run_async(pu.launch_program_with_context, exec, target)

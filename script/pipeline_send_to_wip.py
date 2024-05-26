@@ -63,9 +63,11 @@ def press_apply(dialog):
 
     files = [f.replace('\\', '/')
              for f in glob.glob(wip_folder + shot + '*.mp4')]
-
-    latest_file = sorted(files)[-1]
-    next_file = aps.get_next_version_path(latest_file)
+    if len(files) == 0:
+        next_file = wip_folder + shot + '_v1.mp4'
+    else:
+        latest_file = sorted(files)[-1]
+        next_file = aps.get_next_version_path(latest_file)
 
     if dialog.get_value('shot_preview'):
         ctx.run_async(copy_file_async, ctx.selected_files[0], next_file)

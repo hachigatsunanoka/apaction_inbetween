@@ -44,10 +44,10 @@ def create_dialog():
         'Use default shot template')
 
     dialog.add_separator()
-    dialog.add_text('OCIO Config :').add_dropdown(
-        ocios[0], ocios, var='ocio', callback=change_ocio)
-    dialog.add_text('Custom config path :', var='custom_ocio_text').add_input(
-        default='path/to/config.ocio', placeholder='path/to/config.ocio', var='custom_ocio_path', browse=ap.BrowseType.File)
+    dialog.add_switch(default=False, var='custom_ocio',
+                      callback=change_ocio).add_text('Use custom OCIO config')
+    dialog.add_text('Config path :', var='custom_ocio_text').add_input(
+        default='', placeholder='path/to/config.ocio', var='custom_ocio_path', browse=ap.BrowseType.File)
     dialog.hide_row('custom_ocio_text', True)
 
     dialog.add_button('Create', press_create)
@@ -56,13 +56,10 @@ def create_dialog():
 
 
 def change_ocio(dialog: ap.Dialog, value):
-    ocio = dialog.get_value('ocio')
-    if ocio == 'Custom':
+    if value:
         dialog.hide_row('custom_ocio_text', False)
-        dialog.hide_row('custom_ocio_path', False)
     else:
         dialog.hide_row('custom_ocio_text', True)
-        dialog.hide_row('custom_ocio_path', True)
 
 
 def change_format(dialog: ap.Dialog, value):
@@ -129,16 +126,9 @@ def press_create(dialog):
         shot_template = None
 
     # get ocio config
-    ocio_type = dialog.get_value('ocio')
-    if ocio_type == 'Custom':
+    ocio = settings.get('ocio')
+    if dialog.get_value('custom_ocio'):
         ocio = dialog.get_value('custom_ocio_path')
-    else:
-        folder = os.path.abspath(os.path.join(
-            os.path.dirname(__file__), '..')).replace(os.sep, '/') + '/resource/ocio/'
-        if ocio_type == 'ACES1.3 (cg)':
-            ocio = folder + 'cg-config.ocio'
-        else:
-            ocio = folder + 'studio-config.ocio'
 
     # create project
     ctx.run_async(create_project_from_template_async,

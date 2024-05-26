@@ -35,6 +35,7 @@ def get_current_pipeline_context(ctx: ap.Context):
     data['width'] = project.get_metadata().get('width', '1920')
     data['height'] = project.get_metadata().get('height', '1080')
     data['fps'] = project.get_metadata().get('fps', '24')
+    data['ocio'] = project.get_metadata().get('ocio', None)
 
     # get shot metadata from context
     data['shot'] = None
@@ -61,8 +62,7 @@ def get_current_pipeline_context(ctx: ap.Context):
     if frame_range is None:
         frame_range = '100'
 
-    data['range'] = aps.get_attribute_text(data['shot_dir'], 'Range',
-                                           workspace_id=ctx.workspace_id)
+    data['range'] = frame_range
 
     return data
 
@@ -71,7 +71,6 @@ def declare_context_env(ctx: ap.Context):
     data = get_current_pipeline_context(ctx)
 
     # set project
-    project = aps.get_project(ctx.path)
     os.environ['IB_PROJ'] = data['project']
     os.environ['IB_PROJDIR'] = data['project_dir']
     os.environ['IB_FPS'] = data['fps']
@@ -93,16 +92,15 @@ def declare_context_env(ctx: ap.Context):
     os.environ['IB_FSTART'] = data['start']
     os.environ['IB_FRANGE'] = data['range']
     os.environ['IB_FEND'] = str(int(data['start']) + int(data['range']) - 1)
+    os.environ['IB_WORKER'] = aps.Settings('pipeline').get('worker')
+
+    os.environ['OCIO'] = data['ocio']
 
 
-def copy_scenefile_from_template(ext: str, ctx: ap.Context, task: str):
+def copy_scenefile_from_template(template: str, ctx: ap.Context, task: str):
 
-    if not ext.startswith('.'):
-        ext = '.' + ext
-
-    format = '[project]_[shot]_[task]_[worker]_[version]' + ext
-    template = os.path.abspath(os.path.join(
-        os.path.dirname(__file__), '..')).replace(os.sep, '/') + '/template/_template' + ext
+    ext = template.split('.')[-1]
+    format = '[project]_[shot]_[task]_[worker]_[version].' + ext
 
     data = get_current_pipeline_context(ctx)
     variables = {

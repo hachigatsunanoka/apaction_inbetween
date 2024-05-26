@@ -40,7 +40,7 @@ def create_dialog():
 
 
 def press_apply(dialog):
-    target = pu.copy_scenefile_from_template(ext='.nk',
+    target = pu.copy_scenefile_from_template(template=settings.get('template'),
                                              ctx=ctx,
                                              task=dialog.get_value('task'))
 

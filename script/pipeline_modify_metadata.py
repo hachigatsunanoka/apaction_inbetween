@@ -42,8 +42,24 @@ def create_dialog():
         callback=change_format)
     dialog.add_info(text='(Preview : ' +
                     'sh001, sh002, sh003, ...)', var='preview')
+
+    dialog.add_separator()
+
+    # OCIO
+    dialog.add_switch(default=False, var='custom_ocio',
+                      callback=change_ocio).add_text('Use custom OCIO config')
+    dialog.add_text('Config path :', var='custom_ocio_text').add_input(
+        default='', placeholder='path/to/config.ocio', var='custom_ocio_path', browse=ap.BrowseType.File)
+    dialog.hide_row('custom_ocio_text', True)
     dialog.add_button('Apply', press_apply)
     dialog.show()
+
+
+def change_ocio(dialog: ap.Dialog, value):
+    if value:
+        dialog.hide_row('custom_ocio_text', False)
+    else:
+        dialog.hide_row('custom_ocio_text', True)
 
 
 def change_format(dialog: ap.Dialog, value):
@@ -67,6 +83,10 @@ def press_apply(dialog):
     metadata['fps'] = dialog.get_value('fps')
     metadata['width'] = dialog.get_value('width')
     metadata['height'] = dialog.get_value('height')
+
+    if dialog.get_value('custom_ocio'):
+        metadata['ocio'] = dialog.get_value('custom_ocio_path')
+
     project.update_metadata(metadata)
 
     ui.show_success('Pipeline', 'Update metadata successfully.')

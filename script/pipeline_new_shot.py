@@ -1,5 +1,6 @@
 import anchorpoint as ap
 import apsync as aps
+import shutil
 
 ui = ap.UI()
 ctx = ap.get_context()
@@ -7,7 +8,9 @@ project = aps.get_project(ctx.path)
 metadata = project.get_metadata()
 format = metadata.get('shot_format')
 increment = metadata.get('shot_increment')
-shot_template = metadata.get('shot_template')
+
+settings = aps.Settings(name="pipeline")
+shot_template = settings.get('shot')
 
 
 def create_dialog():
@@ -31,8 +34,9 @@ def create_shot_folder_async(start, end):
     for i in range(start, end+1):
         shotnum = i * int(increment)
         shot = format.replace('#' * num, f'{shotnum:0{num}d}')
-        aps.copy_from_template(shot_template, ctx.path +
-                               '/'+shot, workspace_id=ctx.workspace_id)
+        # aps.copy_from_template(shot_template, ctx.path +
+        #                        '/'+shot, workspace_id=ctx.workspace_id)
+        shutil.copytree(shot_template, ctx.path + '/' + shot)
         progress.set_text(str(i) + ' / ' + str(end) + ' shots created')
 
     progress.finish()
