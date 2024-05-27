@@ -93,6 +93,7 @@ def declare_context_env(ctx: ap.Context):
     os.environ['IB_FRANGE'] = data['range']
     os.environ['IB_FEND'] = str(int(data['start']) + int(data['range']) - 1)
     os.environ['IB_WORKER'] = aps.Settings('pipeline').get('worker')
+    os.environ['IB_TODAY'] = get_today()
 
     os.environ['OCIO'] = data['ocio']
 

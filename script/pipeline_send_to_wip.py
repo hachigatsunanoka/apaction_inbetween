@@ -1,7 +1,7 @@
 import anchorpoint as ap
 import apsync as aps
 import pipeline_utils as pu
-
+import os
 import glob
 
 ui = ap.UI()
@@ -75,9 +75,16 @@ def press_apply(dialog):
     dialog.close()
 
 
-def copy_file_async(src, dst):
+def copy_file_async(src, dst, delete=False):
+    progress = ap.Progress('Copying file...', show_loading_screen=True)
     aps.copy_file(src, dst, workspace_id=ctx.workspace_id)
     ui.show_success('File copied successfully.')
+
+    if delete:
+        os.remove(src)
+        ui.show_success('Source file deleted successfully.')
+
+    progress.finish()
 
 
 create_dialog()
