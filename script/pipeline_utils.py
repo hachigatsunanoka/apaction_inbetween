@@ -5,7 +5,7 @@ import subprocess
 import datetime
 
 
-def launch_program_with_context(exec: str, ctx: ap.Context, clear_python: bool = True):
+def launch_program_with_context(exec: str, target: str, ctx: ap.Context, clear_python: bool = True):
 
     declare_context_env(ctx)
 
@@ -15,7 +15,7 @@ def launch_program_with_context(exec: str, ctx: ap.Context, clear_python: bool =
     try:
         subprocess.run([
             exec,
-            ctx.path
+            target
         ])
     except Exception as e:
         raise Exception(f'Error launching program: {e}')
@@ -40,6 +40,9 @@ def get_current_pipeline_context(ctx: ap.Context):
     # get shot metadata from context
     data['shot'] = None
     data['shot_dir'] = None
+    data['start'] = None
+    data['range'] = None
+
     parts = ctx.path.split('/')
     for i in range(len(parts)):
         if parts[i] == '02_PRODUCTION':
@@ -50,19 +53,19 @@ def get_current_pipeline_context(ctx: ap.Context):
     if data['shot'] is not None:
         data['shot_dir'] = '/'.join(parts[:i + 2])
 
-    start = aps.get_attribute_text(
-        data['shot_dir'], 'Start', workspace_id=ctx.workspace_id)
-    if start is None:
-        start = '1001'
+        start = aps.get_attribute_text(
+            data['shot_dir'], 'Start', workspace_id=ctx.workspace_id)
+        if start is None:
+            start = '1001'
 
-    data['start'] = start
+        data['start'] = start
 
-    frame_range = aps.get_attribute_text(
-        data['shot_dir'], 'Range', workspace_id=ctx.workspace_id)
-    if frame_range is None:
-        frame_range = '100'
+        frame_range = aps.get_attribute_text(
+            data['shot_dir'], 'Range', workspace_id=ctx.workspace_id)
+        if frame_range is None:
+            frame_range = '100'
 
-    data['range'] = frame_range
+        data['range'] = frame_range
 
     return data
 
@@ -118,6 +121,12 @@ def copy_scenefile_from_template(template: str, ctx: ap.Context, task: str):
 
 
 def get_today():
+    '''
+    Get today's date in the format of 'yymmdd'
+
+    Returns:
+        str: today's date in the format of 'yymmdd'
+    '''
 
     today = str(datetime.date.today()).split('-')
     foldername = today[0][-2:]+today[1]+today[2]

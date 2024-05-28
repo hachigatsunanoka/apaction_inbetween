@@ -1,7 +1,7 @@
 version: "1.0"
 
 action:
-  name: "Houdini: Open File"
+  name: "Houdini: Open File..."
 
   version: 1
   id: "inbetween::houdini::launch"

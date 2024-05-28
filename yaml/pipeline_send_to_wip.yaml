@@ -16,4 +16,4 @@ action:
 
   register:
     file:
-      enable: true
+      filter: "*.png;*.exr;*.mp4;*.mov;*.jpg;*jpeg;*.gif"

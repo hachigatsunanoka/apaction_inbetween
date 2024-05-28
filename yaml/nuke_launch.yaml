@@ -1,7 +1,7 @@
 version: "1.0"
 
 action:
-  name: "Nuke: Open File"
+  name: "Nuke: Open File..."
 
   version: 1
   id: "inbetween::nuke::launch"
