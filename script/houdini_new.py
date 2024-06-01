@@ -41,8 +41,8 @@ def create_dialog():
     dialog.add_text('Custom template path: ').add_input(default='',
                                                         placeholder='/path/to/template.hip',
                                                         var='custom_template_path',
-                                                        browse=ap.BrowseType.Folder,
-                                                        browse_path='C:/')
+                                                        browse=ap.BrowseType.File,
+                                                        browse_path=ctx.path)
     dialog.hide_row('custom_template_path', True)
     dialog.add_info(
         'If you want to use specific template, enable this option.')
@@ -71,7 +71,7 @@ def press_apply(dialog):
                                              task=dialog.get_value('task'))
 
     if dialog.get_value('launch'):
-        ctx.run_async(pu.launch_program_with_context, exec, target)
+        ctx.run_async(pu.launch_program_with_context, exec, target, ctx)
         ui.show_success('Houdini', 'Houdini will be started')
     else:
         ui.show_success('Houdini', 'Houdini script created successfully.')

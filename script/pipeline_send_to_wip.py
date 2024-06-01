@@ -75,6 +75,7 @@ def press_apply(dialog):
 
     shot = data['shot']
     wip_folder = ctx.project_path + '/05_WIP/'
+    aps.toggle_version_control(wip_folder, True)
 
     if shot_preview:
         # copy file to just under th wip folder and rename it to <shot>_v<version>.mp4
@@ -83,12 +84,14 @@ def press_apply(dialog):
 
         if len(files) == 0:
             next_file = wip_folder + shot + '_v1.mp4'
+            message = 'v0->v1'
         else:
             latest_file = sorted(files)[-1]
             next_file = aps.get_next_version_path(latest_file)
+            message = f'v{int(next_file.split("_v")[1].split(".")[0])}->v{int(next_file.split("_v")[1].split(".")[0])+1}'
 
         ctx.run_async(copy_file_async,
-                      ctx.selected_files[0], next_file, delete)
+                      ctx.selected_files[0], next_file, delete, message)
 
     else:
         # copy file to today's folder
@@ -96,21 +99,28 @@ def press_apply(dialog):
         if not os.path.exists(dst_folder):
             os.makedirs(dst_folder)
 
-        ctx.run_async(copy_files_async, ctx.selected_files, dst_folder, delete)
+        ctx.run_async(copy_files_async, ctx.selected_files,
+                      dst_folder, delete)
 
     dialog.close()
 
 
-def copy_file_async(src: str, dst: str, delete: bool = False):
+def copy_file_async(src: str, dst: str, delete: bool = False, message: str = ''):
     progress = ap.Progress('Copying file...', show_loading_screen=True)
     try:
         aps.copy_file(src, dst, workspace_id=ctx.workspace_id)
 
+        # update timeline
+        aps.set_attribute_text(
+            dst, attribute_title='Timeline', text='New version created', update_timeline=True, workspace_id=ctx.workspace_id)
+
         if delete:
             os.remove(src)
+
     except Exception as e:
         progress.finish()
         ui.show_error('Pipeline', f'Error copying file: {e}')
+        return
 
     progress.finish()
     ui.show_success('Pipeline', 'File copied successfully.')
@@ -127,6 +137,11 @@ def copy_files_async(srcs: list, dst_dir: str, delete: bool = False):
 
             if delete:
                 os.remove(src)
+
+        # update timeline
+        aps.set_attribute_text(
+            dst_dir, attribute_title='Timeline', text=f'Add {len(srcs)} files', update_timeline=True, workspace_id=ctx.workspace_id)
+
     except Exception as e:
         progress.finish()
         ui.show_error('Pipeline', f'Error copying file: {e}')

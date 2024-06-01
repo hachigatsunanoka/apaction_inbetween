@@ -18,14 +18,16 @@ def create_dialog():
     dialog.icon = ICON
     dialog.title = 'Create New Project'
 
-    dialog.add_text('Project Code :').add_input(default='24000',
+    dialog.add_text('Project Code: ').add_input(default='',
                                                 placeholder='00000',
                                                 var='code',
-                                                width=100).add_text('_').add_input(default='NAME',
-                                                                                   placeholder='Name of the project',
+                                                width=100).add_text('_').add_input(default='',
+                                                                                   placeholder='NAME',
                                                                                    var='name')
     dialog.add_info(
         'Project name should be uppercase and no space, no underscore.')
+    dialog.add_text('Short Name: ').add_input(default='', placeholder='name', var='short_name', width=100)
+    dialog.add_info('Short name should be lowercase and no space, no underscore. This will be used as the file name.')
     dialog.add_separator()
     dialog.add_text('FPS :').add_input(
         default='24', placeholder='FPS', var='fps', width=100)
@@ -78,13 +80,13 @@ def change_format(dialog: ap.Dialog, value):
     dialog.set_value('preview', '(Preview : ' + shots_str + ', ...)')
 
 
-def create_project_from_template_async(code, name, fps, width, height, shot_format, shot_increment, shot_template, ocio):
+def create_project_from_template_async(name, short_name, fps, width, height, shot_format, shot_increment, shot_template, ocio):
 
     progress = ap.Progress('Creating Project', 'This may take a while...',
                            infinite=False, cancelable=False, show_loading_screen=True)
 
     source = settings.get('template')
-    target = settings.get('root') + '/' + code + '_' + name
+    target = settings.get('root') + '/' + name
 
     project = ctx.create_project(
         target, name, workspace_id=ctx.workspace_id)
@@ -92,6 +94,7 @@ def create_project_from_template_async(code, name, fps, width, height, shot_form
     aps.copy_folder(source, target, workspace_id=ctx.workspace_id)
 
     metadata = {}
+    metadata['short_name'] = short_name
     metadata['fps'] = fps
     metadata['width'] = width
     metadata['height'] = height
@@ -110,8 +113,8 @@ def create_project_from_template_async(code, name, fps, width, height, shot_form
 
 def press_create(dialog):
     # get values from dialog
-    code = dialog.get_value('code')
-    name = dialog.get_value('name')
+    name = dialog.get_value('code') + '_' + dialog.get_value('name')
+    short_name = dialog.get_value('short_name')
     fps = dialog.get_value('fps')
     width = dialog.get_value('width')
     height = dialog.get_value('height')
@@ -131,8 +134,7 @@ def press_create(dialog):
         ocio = dialog.get_value('custom_ocio_path')
 
     # create project
-    ctx.run_async(create_project_from_template_async,
-                  code, name, fps, width, height, shot_format, shot_increment, shot_template, ocio)
+    ctx.run_async(create_project_from_template_async, name, short_name, fps, width, height, shot_format, shot_increment, shot_template, ocio)
 
     dialog.close()
 

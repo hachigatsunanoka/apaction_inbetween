@@ -30,7 +30,7 @@ def get_current_pipeline_context(ctx: ap.Context):
 
     # get project metadata
     project = aps.get_project(ctx.path)
-    data['project'] = project.name
+    data['project'] = project.get_metadata().get('short_name', 'unk')
     data['project_dir'] = project.path
     data['width'] = project.get_metadata().get('width', '1920')
     data['height'] = project.get_metadata().get('height', '1080')
@@ -66,6 +66,8 @@ def get_current_pipeline_context(ctx: ap.Context):
             frame_range = '100'
 
         data['range'] = frame_range
+    
+    print(data)
 
     return data
 
@@ -132,3 +134,17 @@ def get_today():
     foldername = today[0][-2:]+today[1]+today[2]
 
     return foldername
+
+
+def add_suffix_to_filename(file_path):
+    base, ext = os.path.splitext(file_path)
+    suffix = '_0'
+    count = 0
+
+    new_file_path = base + suffix + ext
+    while os.path.exists(new_file_path):
+        count += 1
+        suffix = f'_{count}'
+        new_file_path = base + suffix + ext
+
+    return new_file_path

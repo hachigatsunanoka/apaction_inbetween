@@ -10,17 +10,21 @@ metadata = project.get_metadata()
 def create_dialog():
     dialog = ap.Dialog()
 
-    dialog.title = 'Modify Project Metadata'
+    dialog.title = 'Update metadata for ' + project.name
+
+    # Project
+    dialog.add_text('<b>Short Name: </b>').add_input(default=metadata.get('short_name', ''), placeholder='name', var='short_name', width=100)
+    dialog.add_info('Short name should be lowercase and no space, no underscore. This will be used as the file name.')
 
     # FPS
-    dialog.add_text('FPS :').add_input(
+    dialog.add_text('<b>FPS: </b>').add_input(
         default=metadata.get('fps', '24'),
         placeholder='FPS',
         var='fps',
         width=100)
 
     # Resolution
-    dialog.add_text('Resolution :').add_input(
+    dialog.add_text('<b>Resolution: </b>').add_input(
         default=metadata.get('width', '1920'),
         placeholder='Width',
         var='width',
@@ -32,11 +36,11 @@ def create_dialog():
     dialog.add_separator()
 
     # Shot Format
-    dialog.add_text('Shot Format :').add_input(
+    dialog.add_text('<b>Shot Format: </b>').add_input(
         metadata.get('shot_format', 'sh###'),
         var='format',
         callback=change_format)
-    dialog.add_text('Shot Number Increment:').add_input(
+    dialog.add_text('<b>Shot Number Increment: </b>').add_input(
         metadata.get('shot_increment', '1'),
         var='increment',
         callback=change_format)
@@ -47,8 +51,8 @@ def create_dialog():
 
     # OCIO
     dialog.add_switch(default=False, var='custom_ocio',
-                      callback=change_ocio).add_text('Use custom OCIO config')
-    dialog.add_text('Config path :', var='custom_ocio_text').add_input(
+                      callback=change_ocio).add_text('<b>Use custom OCIO config</b>')
+    dialog.add_text('Config path: ', var='custom_ocio_text').add_input(
         default='', placeholder='path/to/config.ocio', var='custom_ocio_path', browse=ap.BrowseType.File)
     dialog.hide_row('custom_ocio_text', True)
     dialog.add_button('Apply', press_apply)
@@ -80,6 +84,7 @@ def change_format(dialog: ap.Dialog, value):
 
 def press_apply(dialog):
 
+    metadata['short_name'] = dialog.get_value('short_name')
     metadata['fps'] = dialog.get_value('fps')
     metadata['width'] = dialog.get_value('width')
     metadata['height'] = dialog.get_value('height')
