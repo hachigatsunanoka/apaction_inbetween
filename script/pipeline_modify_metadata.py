@@ -16,6 +16,8 @@ def create_dialog():
     dialog.add_text('<b>Short Name: </b>').add_input(default=metadata.get('short_name', ''), placeholder='name', var='short_name', width=100)
     dialog.add_info('Short name should be lowercase and no space, no underscore. This will be used as the file name.')
 
+    dialog.add_separator()
+
     # FPS
     dialog.add_text('<b>FPS: </b>').add_input(
         default=metadata.get('fps', '24'),
